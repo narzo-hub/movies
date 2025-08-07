@@ -1,7 +1,7 @@
 FROM python:3.12-slim
 
-# Install git and other dependencies
-RUN apt-get update && apt-get install -y git libjpeg-dev zlib1g-dev libssl-dev libffi-dev
+# Install dependencies
+RUN apt-get update && apt-get install -y git build-essential libjpeg-dev zlib1g-dev libssl-dev libffi-dev
 
 # Copy requirements file
 COPY requirements.txt /requirements.txt
