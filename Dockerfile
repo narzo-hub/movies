@@ -1,16 +1,14 @@
-FROM python:3.12-slim
+FROM python:3.10-slim-bullseye
 
-# Install dependencies
-RUN apt-get update && apt-get install -y git build-essential libjpeg-dev zlib1g-dev libssl-dev libffi-dev
+# Install git and dependencies
+RUN apt-get update && \
+    apt-get install -y git libjpeg-dev libpng-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy requirements file
-COPY requirements.txt /requirements.txt
-
-# Install requirements
+COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copy application code
-COPY . /app/
+COPY . .
 
-# Expose port
 EXPOSE 8080
+CMD ["python", "app.py"]
