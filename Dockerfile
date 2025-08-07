@@ -1,14 +1,16 @@
-FROM python:3.10-slim-bullseye
+FROM python:3.10.8-slim-buster
 
-# Install git and dependencies
-RUN apt-get update && \
-    apt-get install -y git libjpeg-dev libpng-dev && \
-    rm -rf /var/lib/apt/lists/*
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+RUN sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list
+
+RUN apt update && apt install git -y
+
+WORKDIR /movies
 
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+
+RUN pip3 install -U pip && pip3 install -U -r requirements.txt
 
 COPY . .
 
-EXPOSE 8080
-CMD ["python", "app.py"]
+CMD ["python", "bot.py"]
